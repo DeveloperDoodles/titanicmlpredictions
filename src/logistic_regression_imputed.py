@@ -1,8 +1,8 @@
 import pandas as pd
 from sklearn.linear_model import LogisticRegression
 
-traindata = pd.read_csv("train.csv")
-testdata = pd.read_csv("test.csv")
+traindata = pd.read_csv("../data/train.csv")
+testdata = pd.read_csv("../data/test.csv")
 
 traindata['Age'] = traindata['Age'].fillna(traindata['Age'].median())
 testdata['Age'] = testdata['Age'].fillna(traindata['Age'].median())

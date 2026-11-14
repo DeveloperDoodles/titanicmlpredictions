@@ -1,21 +1,23 @@
 import pandas as pd
-from sklearn.ensemble import RandomForestClassifier
+from sklearn.linear_model import LogisticRegression
 
-traindata = pd.read_csv("train.csv")
-testdata = pd.read_csv("test.csv")
+traindata = pd.read_csv("../data/train.csv")
+testdata = pd.read_csv("../data/test.csv")
 
-titanicfeat = ['Pclass', 'Sex', 'Age', 'SibSp', 'Parch', 'Fare']
-
-traindata = traindata.dropna(subset=titanicfeat)
-testdata = testdata.dropna(subset=titanicfeat)
+traindata = traindata.dropna()
+testdata = testdata.dropna()
 
 traindata['Sex'] = traindata['Sex'].map({'male': 0, 'female': 1})
 testdata['Sex'] = testdata['Sex'].map({'male': 0, 'female': 1})
+
 y = traindata.Survived
+
+titanicfeat = ['Pclass', 'Sex', 'Age', 'SibSp', 'Parch', 'Fare']
+
 X = traindata[titanicfeat]
 test_X = testdata[titanicfeat]
 
-titanicmodel = RandomForestClassifier(random_state=1)
+titanicmodel = LogisticRegression(max_iter=1000)
 
 titanicmodel.fit(X, y)
 
