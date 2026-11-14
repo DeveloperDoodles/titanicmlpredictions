@@ -58,16 +58,39 @@ titanicmlpredictions/
 │   ├── logistic_regression_imputed.py
 │   ├── logistic_regression_dropna.py
 │   ├── decision_tree.py
-│   └── random_forest.py
+│   ├── random_forest.py
+│   └── evaluate_models.py      Cross-validated comparison, base vs engineered features
 └── README.md
 ```
 
+## 📊 Results
+
+`test.csv` has no labels, so these scores come from **5-fold stratified cross-validation on `train.csv`**. Run `src/evaluate_models.py` to reproduce them.
+
+| Model | Base features | + Engineered features |
+|---|:---:|:---:|
+| Logistic Regression | 0.788 ± 0.011 | 0.807 ± 0.018 |
+| Decision Tree | 0.796 ± 0.036 | 0.799 ± 0.008 |
+| **Random Forest** | **0.825 ± 0.023** | **0.826 ± 0.011** |
+
+*Mean accuracy across 5 folds, ± standard deviation.*
+
+**Takeaways**
+- **Random Forest is the strongest model** on this data, and it's also the most stable on the engineered features.
+- **Feature engineering helps Logistic Regression** (about +2 points). It makes little difference for the tree models, which can already capture those interactions.
+
+**Engineered features** (`src/evaluate_models.py`):
+- `FamilySize`: siblings + spouses + parents + children + 1
+- `IsAlone`: 1 if the passenger travelled alone
+- `Title`: the honorific from `Name` (Mr, Mrs, Miss, Master, or Rare)
+
 ## 🔮 Next steps
 
-- [ ] Hold out part of `train.csv` to measure accuracy. `test.csv` has no labels, so the scripts can't report their own accuracy yet.
-- [ ] Add cross-validation to compare the four models fairly
-- [ ] Engineer features such as family size, or extract titles like "Mr." and "Mrs." from `Name`
+- [x] Measure accuracy on the training data (cross-validation)
+- [x] Compare the four models fairly with the same folds
+- [x] Engineer features from family size and titles
 - [ ] Submit predictions to the Kaggle Titanic competition for an official score
+- [ ] Try hyperparameter tuning for the Random Forest
 
 ---
 
